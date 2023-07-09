@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Login page</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    body {
+      height: 100%;
+      background: linear-gradient(to right,
+          rgb(18, 111, 218) 0%,
+          rgb(18, 111, 218) 50%,
+          white 50%,
+          white 100%);
+    }
+
+    h1 {
+
+      box-sizing: border-box;
+      color: white;
+      background-color: blue;
+      border: 1px solid blue;
+      width: 13.7%;
+      position: relative;
+      margin-left: 55%;
+      text-align: center;
+      margin-top: 4%;
+      margin-left: 66%;
+      font-size: 45px;
+
+    }
+
+    h2 {
+      position: relative;
+      margin-left: 23%;
+      margin-top: -1%;
+      text-align: center;
+      margin-left: 45%;
+      font-size: 20px;
+    }
+
+    h5 {
+      position: relative;
+      margin-left: 23%;
+      margin-top: -1%;
+      text-align: center;
+      margin-left: 46%;
+    }
+
+    img {
+      position: relative;
+      height: 50vh;
+      box-sizing: border-box;
+      margin-top: -10%;
+    }
+
+    .a0 {
+      width: 44.5%;
+      text-align: center;
+    }
+
+    .a1 {
+      position: relative;
+      margin-left: 50%;
+      margin-top: -30.5%;
+    }
+
+    .a2 {
+      position: relative;
+      margin-left: 50%;
+
+    }
+
+    #orWith {
+      color: grey;
+      margin-left: 30%;
+    }
+
+    .a3 {
+      position: relative;
+      margin-left: 50%;
+      margin-top: 5%;
+      align-items: center;
+      text-align: center;
+    }
+
+
+    #inputEmail {
+      align-items: center;
+      margin-left: 23%;
+      margin-top: 75px;
+      margin-bottom: 0px;
+      border: 2px solid gray;
+      height: 5vh;
+      width: 50%;
+      border-radius: 6px 6px 6px 6px;
+    }
+
+    #inputPassword {
+      margin-left: 23%;
+      border: 2px solid gray;
+      height: 5vh;
+      width: 50%;
+      border-radius: 6px 6px 6px 6px;
+      margin-top: 8px;
+
+    }
+
+    #fd {
+      margin-left: 37%;
+      text-decoration: dashed;
+    }
+
+    #sgnin {
+      margin-left: 23%;
+      background-color: rgb(24, 151, 229);
+      color: white;
+      border: 2px solid gray;
+      height: 5vh;
+      width: 50%;
+      border-radius: 6px 6px 6px 6px;
+    }
+
+    #sgnin:hover {
+      background-color: rgb(24, 24, 229);
+    }
+
+    #Google,
+    #FB {
+      border: 2px solid gray;
+      height: 5vh;
+      width: 25%;
+      border-radius: 6px 6px 6px 6px;
+    }
+
+    #Google:hover {
+
+      background-color: rgb(24, 151, 229);
+    }
+
+    #FB:hover {
+
+      background-color: rgb(24, 151, 229);
+    }
+
+    #sup {
+      text-decoration: none;
+    }
+
+    #sup:hover {
+      border: 3px solid blue;
+      border-radius: 5px 5px 5px 5px;
+    }
+
+    .crea2 {
+
+      margin-left: 60%;
+    }
+
+    #submit {
+      background-color: rgb(24, 151, 229);
+      color: white;
+      border: 2px solid gray;
+      height: 6vh;
+      width: 20%;
+      border-radius: 6px 6px 6px 6px;
+      margin-left: 10%;
+
+    }
+
+    #cancel {
+      margin-top: -200px;
+      margin-left: 8px;
+      color: rgb(184, 172, 172);
+      border: 2px solid gray;
+      height: 6vh;
+      width: 20%;
+      border-radius: 6px 6px 6px 6px;
+
+    }
+
+    #singin {
+      text-decoration: none;
+      color: rgb(80, 140, 237);
+    }
+
+    .footer {
+      font-weight: bold;
+      position: relative;
+      text-align: center;
+      margin-left: 50%;
+      margin-top: 20%;
+
+    }
+
+    #footer1 {
+      font-weight: bold;
+      position: relative;
+      text-align: center;
+      margin-top: 10%;
+
+
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="main">
+    <h1>LOGO</h1>
+    <h2>Sign In</h2>
+    <h5 style="color: gray">to access your engage</h5>
+    <div class="a0">
+      <img src="media\login_page.png" />
+      <b><p style="font-size: 150%; color: white;">Fast, Efficient and Productive</p></b>
+      
+    </div>
+
+    <div class="a1">
+      <form class="form-signin" method="post" action="/login">
+        {%csrf_token %}
+       
+      <input type="text" id="inputEmail" name="username" class="form-control" placeholder="Username" required autofocus>
+
+      <br>
+      <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
+      <br >
+      <br> <a href="/forget" id="fd">Forgot Password?</a>
+    </div>
+
+    <div class="a2">
+      <br /><br />
+      <button type="submit" id="sgnin"><b>Sign In</b></button>
+      <p id="orWith">---------------Or with email---------------</p>
+      <p></p>
+    </div>
+
+    <div class="a3">
+      <a
+        href="https://accounts.google.com/o/oauth2/auth/oauthchooseaccount?response_type=code&client_id=95925662322-jroo0m34qta6c7f2tkfhadkes4l9rr79.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Flogin.salesforce.com%2Fservices%2Fauthglobalcallback&scope=email%20openid%20profile&state=CAAAAYjjhvrPMDAwMDAwMDAwMDAwMDAwAAAA9OaDNZDatvUq36hDwmy859EPfk1SCKEBjvMZoAJpRSmZycUcCQWcs2rEUDj3wQKZnoGNjjKQ_McruFMom9YdBy6OlP3B5pSokRSY22zUz4qhrrSH9kdKEoShxoznQdBcvU5k7R8eu1ZeFK6d8TQlQLx-ay_9PZwEMOaP7auwIyhRlxjlrGEGGP0kPCq1coCrTWICEyb0_JT4Xb0gHmR7YAFoOhWmICPrTamMorEq6uyszRi-y6VTxR_78WHJ9Mfmh5SXfqI9ACFKa-YZeuGhIi3j03Wvh-Ir0028JT8T6Xchi9DxWTx1kjzomRE3nIJ-316WzAxR1NudYJjrVKikNNWkacq_mNLYZj5r43PT_rkFg7TRQMwgKT7d8GGuvLGfsJ6HM9h2iU2-is6auZAq6Yfsp5udQU1Q-piQ4bB7Kj-2ptWyTJYIDYFhCfGfDMFR8B45jOvNYVGwIJYJ1qGnFyXb0cbSnnPVQs1HxGosPVhqF67yxfqvYxGXRSdc7REtrM263mpsJrzHb_WmGyhD2UUnOUmOYskSgLb2zux8cfSCyITI4U27-G_wXW9J0srTMvXXki1Yv7l7JO45T81pbA7HmXgLUYmyjqvyHyoHNzlH-eFonMayUxeHCbCX_XRpwA%3D%3D&service=lso&o2v=1&flowName=GeneralOAuthFlow"><button
+          type="button" id="Google">
+          <i style="color: red;" class="fab fa-google"></i>&nbsp;Sign in with Google</button></a>
+      <a href="https://www.facebook.com/login/"><button type="button" id="FB">
+          <i style="color:blue;" class="fa-brands fa-facebook-f"></i>&nbsp;Sign in with Facebook
+        </button></a>
+      <p style="color: gray">
+        You are not in engage yet?&nbsp;<a href="/signup" id="sup">Sign Up now</a>
+      </p>
+      <p id="footer1">©2023 IconoGraphy Solutionz. All Rights Reserved.</p>
+      <br />
+    </div>
+  </div>
+</form>
+</body>
+
+</html>

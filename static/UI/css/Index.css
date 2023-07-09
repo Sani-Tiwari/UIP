@@ -1,0 +1,60 @@
+.nav-link:hover {
+    background-color: lightblue;}
+
+    .image-card img {
+        width: 100%;
+        height: auto; /* Adjust the desired height */
+        object-fit: cover;
+    }
+    .btn-light:hover {
+        background-color: grey;
+    }
+   
+    /* caption wala */
+    #outputTextField {
+      border: none;
+      resize: none;
+    }
+
+
+
+    /* yaha se */
+    .user-profile {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .user-profile img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .post-image {
+        max-width: 100%;
+        margin-bottom: 10px;
+      }
+      .post-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+      }
+      .post-actions .action {
+        display: flex;
+        align-items: center;
+        color: #555;
+        cursor: pointer;
+      }
+      .post-actions .action i {
+        margin-right: 5px;
+      }
+      .post-actions .action:hover {
+        color: blue;
+      }
+
+
+     

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Facebook Post Template</title>
+  <style>
+    .container {
+      display: flex;
+    }
+
+    .column {
+      flex: 1;
+      padding: 10px;
+    }
+
+    .post-image {
+      max-width: 100%;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="column">
+      <h2>Image Selection</h2>
+      <input type="file" id="imageInput">
+      <img id="selectedImage" src="#" alt="Selected Image" style="display: none;">
+    </div>
+  
+    <div class="column">
+      <h2>Post Preview</h2>
+      <img id="displayedImage" src="#" alt="Displayed Image" style="display: none;">
+      <div class="button-container">
+        <button id="displayButton" disabled>Display Image</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const displayButton = document.getElementById('displayButton');
+    const selectedImage = document.getElementById('selectedImage');
+    const displayedImage = document.getElementById('displayedImage');
+
+    imageInput.addEventListener('change', function() {
+      const file = imageInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        selectedImage.src = event.target.result;
+        selectedImage.style.display = 'block';
+        displayButton.disabled = false;
+      };
+
+      reader.readAsDataURL(file);
+    });
+
+    displayButton.addEventListener('click', function() {
+      displayedImage.src = selectedImage.src;
+      displayedImage.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

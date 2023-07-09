@@ -1,0 +1,615 @@
+{%load static%} 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
+    <link rel="stylesheet" href="{% static 'UI/css/Index.css' %}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Hello, world!</title>
+    <style>
+      .card image-card{max-width: 10px;
+      max-height: 10px;}
+        .card-body {
+    overflow: hidden;
+    max-width: 100%
+    max-
+}
+
+      .selected-image,
+      .selected-video {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      .image-card img {
+        width: 100%;
+        height: auto; /* Adjust the desired height */
+        object-fit: cover;
+    }
+    </style>
+    
+  </head>
+
+  <body>
+    <div class="w3-sidebar w3-bar-block w3-black w3-large" style="width: 50px">
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-home"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-search"></i></a>
+      <a href="#" class="w3-bar-item w3-button"
+        ><i class="fa fa-envelope"></i
+      ></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-globe"></i></a>
+      <a href="/logout" class="w3-bar-item w3-button"><i class="fa fa-trash"></i></a>
+    </div>
+
+    <div class="w3-container border" style="margin-left: 50px">
+      <h2 class="text-dark">Social Media</h2>
+      <p class="text-muted">Home-composer</p>
+      <!-- <hr class="p-0"/> -->
+      <nav class="navbar navbar-expand-lg navbar-light py-0">
+        <div class="navbar-nav my-0">
+          <a class="nav-item nav-link active" href="#"
+            >Dashboard <span class="sr-only">(current)</span></a
+          >
+          <a class="nav-item nav-link" href="/imge">Composer</a>
+          <a class="nav-item nav-link" href="/bulk">Bulk Upload</a>
+          <a class="nav-item nav-link" href="#">Planner</a>
+        </div>
+      </nav>
+      <!-- <hr class="p-0"> -->
+    </div>
+    <div class="w3-container" style="margin-left: 50px">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="d-flex justify-content-between">
+            <h6 class="align-self-start">Media</h6>
+            <form method="post" action="" enctype="multipart/form-data">
+              {% csrf_token %}
+              <input type="file" name="file" id="file-input" accept="image/*,video/*" style="display: none;">
+              <button type="button" onclick="chooseFile()" class="btn-sm btn-primary file-upload-btn align-self-end" type="btn">Upload</button>
+              <input type="submit" value="Submit" style="display: none;">
+          </form>
+            <!--<button class="btn-sm btn-primary file-upload-btn align-self-end" type="btn"
+            id="imageButton">
+              Upload
+            </button>-->
+          </div>
+          <div class="container">
+            <div class="row">
+                <!-- img.html -->
+{% if file_type == 'image' %}
+{% for image in images %}
+    <div class="col-md-4">
+        <div class="card image-card">
+          
+            <img src="{{ image.image_file.url }}" alt="{{ image.name }}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">{{ image.name }}</h5>
+                <div class="form-check">
+                    <input class="form-check-input image-checkbox" type="checkbox" value="{{ image.image_file.url }}" id="check2" />
+                    <label class="form-check-label" for="check2">Check</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if forloop.counter|divisibleby:3 and not forloop.last %}
+        </div><div class="row">
+    {% endif %}
+{% endfor %}
+{% elif file_type == 'video' %}
+{% for video in videos %}
+    <div class="col-md-4">
+        <div class="card video-card">
+            <video controls class="card-img-top">
+                <source src="{{ video.video_file.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="card-body">
+                <h5 class="card-title">{{ video.name }}</h5>
+                <div class="form-check">
+                    <input class="form-check-input video-checkbox" type="checkbox" value="{{ video.video_file.url }}" id="check{{ forloop.counter }}" />
+                    <label class="form-check-label" for="check">Check</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if forloop.counter|divisibleby:3 and not forloop.last %}
+        </div><div class="row">
+    {% endif %}
+{% endfor %}
+{% endif %}
+     
+          
+                            <!-- Add more image cards as needed -->
+            </div>
+        </div>
+        </div>
+        <div class="col-md-6 border">
+            <div class="d-flex justify-content-between">
+                <h6 class="align-self-start">Composer</h6>
+                <!--<button class="btn-sm btn-secondary align-self-end" type="submit">
+                  Upload
+                </button>-->
+              </div>
+
+              <div class="container p-0 m-0">
+                <div class="row">
+                    <div class="col">
+                        <form action="" method="get">
+                            <input type="radio" name="file_type" value="image" id="image" {% if file_type == 'image' %}checked{% endif %}>
+                            <label for="image">Images</label>
+                            <input type="radio" name="file_type" value="video" id="video" {% if file_type == 'video' %}checked{% endif %}>
+                            <label for="video">Videos</label>
+                            <input type="radio" name="file_type" value="video" id="video" >
+                            <label for="video">Text</label>
+                            <input type="radio" name="file_type" value="video" id="video" >
+                            <label for="video">Reel</label>
+                            <input type="radio" name="file_type" value="video" id="video" >
+                            <label for="video">Link</label>
+                            <input type="submit" id="applyBtn" value="Apply" style="display: none;">
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="container mt-2">
+                <div class="row">
+                    <div class="col">
+                        <label for="" class="text-dark">Post To</label>
+                        <select class="form-select" aria-label="Dropdown">
+                            <option selected>Select an option</option>
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                            <option value="option4">Option 4</option>
+                        </select>
+                        <!-- button -->
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="container pt-2 d-flex border bg-secondary py-4 mt-2 px-4 justify-content-center align-items-center" style="max-width: 100%; height: 200px; overflow: auto;"> -->
+              <div id="imageContainer" class="d-flex flex-wrap" style="max-width: 100%; height: 100px; flex: 0 0 auto; display: flex; justify-content: center; align-items: center; gap: 10px; overflow:hidden">
+                <!-- Add your content here -->
+            </div>
+        
+              <!-- </div> -->
+              
+            <br>
+
+
+            <br>
+            <br>
+            <div>
+                <label for="">Captions:</label>
+                <div class="container">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <textarea class="form-control" id="textareaInput" rows="4" placeholder="Enter your caption here" oninput="redirectText()"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+            <br>
+            <div>
+                <label>Hastag:</label>
+                <div class="form-group">
+                        
+                    <textarea class="form-control" id="hashtagTextarea" rows="4" placeholder="enter your caption here" oninput="redirectText()"></textarea>
+                    
+                </div>
+            </div>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex justify-content-between">
+                        <h6 class="align-self-start">Scheduling</h6>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn-sm btn-light align-self-end">Publish Now</button>
+                            <button class="btn-sm btn-light align-self-end">Schedule</button>
+                            <button class="btn-sm btn-light align-self-end">Specific Date</button>
+                            <button class="btn-sm btn-light align-self-end">Save as draft</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col d-flex justify-content-between">
+                        <p class="align-self-start text-muted">Post will be post imediately</p>
+                        <div class="d-flex justify-content-end">
+                            <button class="btn-sm btn-light align-self-end">Cancel</button>
+                            <button class="btn-sm btn-primary align-self-end" id="pub">Publish</button>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+
+
+            
+        </div>
+        <div class="col-md-3" id="prev">
+            <div class="">
+                <h6 class="align-self-start ">Media Preview</h6>
+                <hr>
+            <p class="text-muted text-sm">The generated previews are not an accurate representation of
+                how the post will appear on the platform; there will be some slight
+                differences.</p>
+            </div>
+
+
+            <!-- yaha se icon -->
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                  <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                      <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="openFacebookTemplate()"><i class="fa fa-facebook"></i></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="openInstagramTemplate()"><i class="fa fa-instagram"></i></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="openTwitterTemplate()"><i class="fa fa-twitter"></i></a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            
+            
+              <div class="container">
+                <!-- Facebook Template -->
+                <div id="facebook-template" style="display: none;">
+                  <div class="user-profile">
+                    
+                    <img src="facebook_logo.png" alt="Facebook Logo">
+                    <br>
+                    <!--<h5>User Name</h5>-->
+                    <br>
+                    <br>
+                    <div>
+                      <textarea id="outputTextField" rows="4" cols="50" readonly></textarea>
+                      <!-- text caption/hastag is here -->
+                    </div>
+                    
+                  </div>
+                  <!-- <img class="post-image" src="" alt="User Posting Image"> -->
+                  <!-- <div class="container pt-2 d-flex border bg-secondary py-4 mt-2 px-4 justify-content-center align-items-center" style="max-width: 100%; height: 200px; overflow: auto;"> -->
+                    <div id="imageContainer2" class="d-flex flex-wrap" style="max-width: 100%; height: 100px; flex: 0 0 auto; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                      <!-- Add your content here -->
+                    </div>
+                  <!-- </div> -->
+                  <div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="post-actions">
+                        
+                    
+                        <div class="action">
+                            <i class="fa fa-thumbs-up"></i>
+                            <span>Like</span>
+                          </div>
+                          <div class="action">
+                            <i class="fa fa-comment"></i>
+                            <span>Comment</span>
+                          </div>
+                          <div class="action">
+                            <i class="fa fa-share"></i>
+                            <span>Share</span>
+                      </div>
+                        </div>
+                  </div>
+                 
+                    <div class="caption-section">
+                        <p id="selectedCaption"></p> <!-- Add id="selectedCaption" -->
+                        <p id="selectedHashtags"></p> <!-- Add id="selectedHashtags" -->
+                      </div>
+
+
+
+
+                    
+                </div>
+            
+                <!-- Instagram Template -->
+                <div id="instagram-template" style="display: none;">
+                  <div class="user-profile">
+                    <img src="instagram_logo.png" alt="Instagram Logo">
+                    <h5>User Name</h5>
+
+                    
+                  </div>
+                  <!-- <img class="post-image" src="user_posting_image.png" alt="User Posting Image"> -->
+                  <div class="container pt-2 d-flex border bg-secondary py-4 mt-2 px-4 justify-content-center align-items-center" style="max-width: 100%; height: 200px; overflow: auto;">
+                    <div id="imageContainer2" class="d-flex flex-wrap" style="max-width: 100%; height: 100px; flex: 0 0 auto; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                      <!-- Add your content here -->
+                    </div>
+                  </div>
+                  <div class="post-actions">
+                    <div class="action">
+                      <i class="fa fa-thumbs-up"></i>
+                      <span>Like</span>
+                    </div>
+                    <div class="action">
+                      <i class="fa fa-comment"></i>
+                      <span>Comment</span>
+                    </div>
+                    <div class="action">
+                      <i class="fa fa-share"></i>
+                      <span>Share</span>
+                    </div>
+                  </div>
+                </div>
+            
+                <!-- Twitter Template -->
+                <div id="twitter-template" style="display: none;">
+                  <div class="user-profile">
+                    <img src="twitter_logo.png" alt="Twitter Logo">
+                    <h5>User Name</h5>
+                    
+                  </div>
+                  <!-- <img class="post-image" src="user_posting_image.png" alt="User Posting Image"> -->
+                  <div class="container pt-2 d-flex border bg-secondary py-4 mt-2 px-4 justify-content-center align-items-center" style="max-width: 100%; height: 200px; overflow: auto;">
+                    <div id="imageContainer2" class="d-flex flex-wrap" style="max-width: 100%; height: 100px; flex: 0 0 auto; display: flex; justify-content: center; align-items: center; gap: 10px;">
+                      <!-- Add your content here -->
+                    </div>
+                  </div>
+                  <div class="post-actions">
+                    <div class="action">
+                      <i class="fa fa-thumbs-up"></i>
+                      <span>Like</span>
+                    </div>
+                    <div class="action">
+                      <i class="fa fa-comment"></i>
+                      <span>Comment</span>
+                    </div>
+                    <div class="action">
+                      <i class="fa fa-share"></i>
+                      <span>Share</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            
+            
+        <h6></h6>
+           
+        </div>
+    </div>
+    <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->
+            </div>
+            
+            
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    >
+  
+    <script src="{% static 'UI/js/Index.js' %}"></script>
+    
+<script>
+  const radioButtons = document.querySelectorAll('input[type="radio"]');
+  const applyButton = document.getElementById('applyBtn');
+  
+  radioButtons.forEach(function(radioButton) {
+    radioButton.addEventListener('click', function() {
+      applyButton.click(); // Trigger the click event on the hidden Apply button
+    });
+  });
+  $(document).ready(function() {
+    // Listen for checkbox changes
+    $('.image-checkbox, .video-checkbox').on('change', function() {
+      // Clear existing content
+      $('#imageContainer').empty();
+      
+      // Loop through all checked checkboxes
+      $('.image-checkbox:checked, .video-checkbox:checked').each(function() {
+        var mediaUrl = $(this).val();
+        var mediaType = $(this).hasClass('image-checkbox') ? 'image' : 'video';
+        
+        // Create a media element based on the type (image or video) and append it to the container
+        if (mediaType === 'image') {
+          var imageElement = $('<img>').attr('src', mediaUrl).addClass('selected-image');
+          $('#imageContainer').append(imageElement);
+        } else if (mediaType === 'video') {
+          var videoElement = $('<video>').attr('src', mediaUrl).attr('controls', true).addClass('selected-video');
+          $('#imageContainer').append(videoElement);
+        }
+      });
+    });
+  });
+  function openFacebookTemplate() {
+  
+    var facebookTemplate = document.getElementById("facebook-template");
+    var instagramTemplate = document.getElementById("instagram-template");
+    var twitterTemplate = document.getElementById("twitter-template");
+  
+    facebookTemplate.style.display = "block";
+    instagramTemplate.style.display = "none";
+    twitterTemplate.style.display = "none";
+   
+  }
+  
+  function openInstagramTemplate() {
+    var facebookTemplate = document.getElementById("facebook-template");
+    var instagramTemplate = document.getElementById("instagram-template");
+    var twitterTemplate = document.getElementById("twitter-template");
+  
+    facebookTemplate.style.display = "none";
+    instagramTemplate.style.display = "block";
+    twitterTemplate.style.display = "none";
+  }
+  
+  function openTwitterTemplate() {
+    var facebookTemplate = document.getElementById("facebook-template");
+    var instagramTemplate = document.getElementById("instagram-template");
+    var twitterTemplate = document.getElementById("twitter-template");
+  
+    facebookTemplate.style.display = "none";
+    instagramTemplate.style.display = "none";
+    twitterTemplate.style.display = "block";
+  }
+  function handleCheckboxSelection() {
+    const checkboxes = document.getElementsByClassName("image-checkbox");
+    const selectedImageElement = document.getElementById("selectedImage");
+    const selectedCaptionElement = document.getElementById("selectedCaption");
+    const selectedHashtagsElement = document.getElementById("selectedHashtags");
+  
+    // Add event listeners to all checkboxes
+    Array.from(checkboxes).forEach(function (checkbox) {
+      checkbox.addEventListener("change", function () {
+        if (this.checked) {
+          // Get the selected image source and caption
+          const imageSrc =
+            this.parentNode.parentNode.parentNode.getElementsByClassName(
+              "image-card"
+            )[0].src;
+          const caption =
+            this.parentNode.parentNode.getElementsByClassName("card-title")[0]
+              .innerText;
+  
+          // Display the selected image, caption, and hashtags in the Facebook template
+          selectedImageElement.src = imageSrc;
+          selectedCaptionElement.innerText = caption;
+          selectedHashtagsElement.innerText = getSelectedHashtags();
+        }
+      });
+    });
+  }
+  
+  // Function to get the selected hashtags
+  function getSelectedHashtags() {
+    const hashtagsTextarea = document.getElementById("hashtagTextarea");
+    const hashtags = hashtagsTextarea.value.split("\n");
+    const selectedHashtags = [];
+  
+    // Filter and format selected hashtags
+    for (let i = 0; i < hashtags.length; i++) {
+      if (hashtags[i].trim() !== "") {
+        selectedHashtags.push("#" + hashtags[i].trim());
+      }
+    }
+  
+    return selectedHashtags.join(" ");
+  }
+  
+  // Call the handleCheckboxSelection function to set up the event listeners
+  handleCheckboxSelection();
+  
+
+  function displaySelectedMedia() {
+    var selectedMediaContainer = document.getElementById("imageContainer");
+    var selectedMediaContainer2 = document.getElementById("imageContainer2");
+    var instagramTemplate = document.getElementById("instagram-template");
+    var selectedImages = selectedMediaContainer.getElementsByClassName("selected-image");
+  
+    // Clear existing content in Instagram template and imageContainer2
+    instagramTemplate.innerHTML = "";
+    selectedMediaContainer2.innerHTML = "";
+  
+    // Iterate over selected images and create the image elements
+    for (var i = 0; i < selectedImages.length; i++) {
+      var image = selectedImages[i];
+  
+      // Create a new image element and set the src attribute
+      var imageElement = document.createElement("img");
+      imageElement.src = image.src;
+      imageElement.classList.add("post-image");
+  
+      // Append the image element to the Instagram template
+      instagramTemplate.appendChild(imageElement.cloneNode(true));
+  
+      // Append the image element to imageContainer2
+      selectedMediaContainer2.appendChild(imageElement.cloneNode(true));
+    }
+  }
+  
+  function chooseFile() {
+    var fileInput = document.getElementById('file-input');
+    fileInput.click();
+    fileInput.addEventListener('change', validateFileType);
+}
+function validateFileType(event) {
+  var fileInput = event.target;
+  var files = fileInput.files;
+  var allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/avi', 'video/mov'];
+
+  for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+      if (!allowedTypes.includes(file.type)) {
+          alert('Invalid file type. Please select an image or video file.');
+          fileInput.value = ''; // Reset the file input
+          return;
+      }
+  }
+
+  // Submit the form
+  fileInput.removeEventListener('change', validateFileType);
+  fileInput.closest('form').submit();
+}
+
+  
+  
+  </script>
+  </body>
+</html>
+
+
